@@ -1,0 +1,6 @@
+{
+  "name": "Raspberry-pi-zero-on-pla-rail",
+  "tagline": "This is for publishing my 1st Raspberry pi zero project - remote controlling a toy train \"PLA-RAIL\".",
+  "body": "### What is PLA RAIL\r\nIt is Japanese famous toy train.\r\nSee this for details.\r\nhttp://www.takaratomy.co.jp/english/products/plarail/what/index.html\r\n\r\n### Why Raspberry Pi zero?\r\nSince its size may fit to PLA RAIL size.\r\nActually it does. See Wiki GALLERY.\r\n\r\n### What to come\r\nThis is a totally personal project. I'll update when I have time.\r\n",
+  "note": "Don't delete this file! It's used internally to help with page regeneration."
+}
