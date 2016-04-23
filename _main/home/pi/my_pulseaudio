@@ -1,0 +1,11 @@
+#!/bin/sh
+dbus-launch
+sleep 1
+/usr/local/bin/pulseaudio --log-target=syslog  --disallow-exit &
+
+# no sudo in here!! kmori
+# start bluetooth PAN to Raspberry Pi3
+# sudo ~/bt-pan client B8:27:EB:5C:B4:29
+
+sleep 99999999
+
