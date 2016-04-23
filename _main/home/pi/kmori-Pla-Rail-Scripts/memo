@@ -1,1 +1,0 @@
-rec testStop01.wav rate 16k silence 1 0.3 0.15% 1 0.3 0.15% : newfile : restart
