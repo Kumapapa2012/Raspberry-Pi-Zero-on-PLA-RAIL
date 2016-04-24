@@ -46,7 +46,7 @@ with closing(sock_svr):
 		print('==== ==== ==== Connection established ==== ==== ====')
 		with closing(conn):
 			rcvmsg = conn.recv(4096) # 4kB 固定。。。
-			print ('Received %d bytes', len(rcvmsg))
+			print ('Received %d bytes'%len(rcvmsg))
 			print ('==== ==== ====        DATA         ==== ==== ====')
 			print (rcvmsg)
 			process_command(rcvmsg)
