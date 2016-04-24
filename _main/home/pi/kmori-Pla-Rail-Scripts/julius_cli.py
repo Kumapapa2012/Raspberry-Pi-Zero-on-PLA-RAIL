@@ -54,7 +54,7 @@ if(retry >= 5):
 while True:
 	print '==== ==== ==== Waiting for command ==== ==== ===='
 	rcvmsg = sock_cli.recv(4096) # 4kB 固定。。。
-	print 'Received %d bytes', len(rcvmsg)
+	print 'Received %d bytes'%len(rcvmsg)
 	print '==== ==== ====        DATA         ==== ==== ===='
 	# print rcvmsg
 	process_command(rcvmsg)
