@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+  <title>--------</title>
+  <meta name="generator" content="Haroopad 0.13.1" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link href="http://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.10.3/css/base/jquery.ui.all.css" rel="stylesheet">
+  <link href="index.css" rel="stylesheet">
+  <script type="text/javascript" src="http://cdnjs.cloudflare.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
+  <script type="text/javascript" src="http://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.10.3/jquery-ui.min.js"></script>
+  <script type="text/javascript" src="http://cdnjs.cloudflare.com/ajax/libs/jqueryui-touch-punch/0.2.2/jquery.ui.touch-punch.min.js"></script>
+</head>
+<script type="text/javascript">
+// ここはビデオ。MJPG Streamer サンプルのコピペ
+/* Copyright (C) 2007 Richard Atterer, richardﾂｩatterer.net
+   This program is free software; you can redistribute it and/or modify it
+   under the terms of the GNU General Public License, version 2. See the file
+   COPYING for details. */
+
+var imageNr = 0; // Serial number of current image
+var finished = new Array(); // References to img objects which have finished downloading
+var paused = false;
+
+
+function createImageLayer() {
+  var img = new Image();
+  img.style.position = "absolute";
+  img.style.zIndex = -1;
+  img.onload = imageOnload;
+  img.onclick = imageOnclick;
+  img.src = "http://"+location.host+":8080/?action=snapshot&n=" + (++imageNr);
+  var webcam = document.getElementById("webcam");
+  webcam.insertBefore(img, webcam.firstChild);
+}
+
+// Two layers are always present (except at the very beginning), to avoid flicker
+function imageOnload() {
+  this.style.zIndex = imageNr; // Image finished, bring to front!
+  while (1 < finished.length) {
+    var del = finished.shift(); // Delete old image(s) from document
+    del.parentNode.removeChild(del);
+  }
+  finished.push(this);
+  if (!paused) createImageLayer();
+}
+
+function imageOnclick() { // Clicking on the image will pause the stream
+  paused = !paused;
+  if (!paused) createImageLayer();
+}
+
+// Onload
+function km_Onload() {
+  document.title = "Pla-rail : "+location.host;
+  createImageLayer();
+}
+
+</script>
+<body onload="km_Onload();">
+    <div class="container">
+      <script type="text/javascript">
+        // ここはスライダー
+        function slider_onchange(event,ui) {
+          $('#slidervalue').html(ui.value);
+        };
+        function slider_onslide(event,ui) {
+          send_message(ui.value);
+          $('#slidervalue').html(ui.value);
+        };
+        $(function() {
+          $( "#slider" ).slider({
+            change: slider_onchange,
+            slide: slider_onslide,
+            orientation: 'vertical'
+          });
+        });
+
+        // ここからWebSockets
+        strSvrIP=location.host;
+        const strSvrPort="10502";
+
+        // Web ソケット接続
+        var ws = new WebSocket('ws://'+strSvrIP+':'+strSvrPort+'/');
+
+        // メッセージ受信イベントを処理
+        ws.onmessage = function(event) {
+          // 受信したメッセージを復元
+          $('#slidervaluesvr').html('from Svr:'+event.data);
+          var data = JSON.parse(event.data);
+          // メモ：ここでSliderの値を設定しても、イベントハンドラは動かないので、ループしない。
+          $( "#slider" ).slider('value',data.value);
+        };
+
+        // クライアントからのデータ送信（スライダーなどのイベント内で使用）
+        function send_message(msg) {
+          ws.send(
+            JSON.stringify({
+            type: 'change',
+            value: msg
+            })
+          ); 
+        };
+      </script>
+      <div id="km-slider">
+        <div id="slider"></div>
+      </div>
+      
+      <div id="main">
+        <div id="console">
+          <div id="webcam">
+            <noscript><img src="/?action=snapshot" /></noscript>
+          </div><br/>
+          <div id="slidervalue"></div>
+          <div id="slidervaluesvr"/><br/>
+        </div>
+      </div><!-- End main -->
+    </div>
+</body>
+
+</html>

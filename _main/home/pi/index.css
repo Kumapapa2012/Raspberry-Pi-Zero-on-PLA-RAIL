@@ -1,0 +1,53 @@
+/* CSS layout */
+body {
+	margin: 0;
+	padding: 0;
+}
+
+/*ui-slider custom*/
+.ui-slider .ui-slider-handle{
+    width:40px; 
+    height:40px; 
+    margin-bottom: -20px;
+    margin-left: -10px
+}
+/*main*/
+#main
+{
+    float: left;
+ 	width: 84vw;
+  	height: 100vh;
+    position: relative;      
+}
+
+#console
+{
+    height: 360px;
+    position: absolute; /* 3 */
+    top: 0;             /* 4 */
+    bottom: 0;           /* 7 */
+    margin: auto;        /* 8 */
+}
+
+#webcam
+{
+    width: 320px;
+    height: 240px;
+    margin: 5px;
+}
+
+/*km-slider*/
+#km-slider
+{
+    float: right;
+	width: 12vw;
+	height: 100vh;
+}
+
+#slider
+{
+    height: 60%;
+    position: relative;
+    top: 10%;
+}
+

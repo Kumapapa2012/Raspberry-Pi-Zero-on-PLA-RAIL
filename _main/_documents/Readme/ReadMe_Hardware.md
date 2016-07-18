@@ -1,8 +1,8 @@
 # プラレールの RaspBerry pi Zero による制御 - Hardware 編
 ## 配線図
 これが全体配線図です。[AutoDesk の 123D Circuit](https://123d.circuits.io/circuits/2087376-kmori-raspberry-pi-zero-on-pla-rail-toy-train) で作成しました。
-クリックして大きなサイズを確認できます。
-[![Diagram-Large](img/Diagram-Page.png)](img/Diagram-Large.png)
+クリックして大きなサイズを確認できます。(2016/07/17 - 電源近くにパスコンデンサを追加しました。)
+![Diagram-Large](img/Diagram-Page.png)](img/Diagram-Large.png)
 
 ## モータードライバーおよびモーター
 ![Diagram-DRV8830.png](./img/Diagram-DRV8830.png)
@@ -64,3 +64,10 @@ Raspberry Pi Zero には、各 I/O 関連の端子には裏に接点(Test Pad)�
 
 <img src="./img/2016-05-08-055801.jpg" alt="2016-05-08-055801.jpg" width="800">
 
+## パスコンデンサ
+最後に電源近くに、パスコンデンサを追加しました。22000+1000 μF で合計 23000 = 23mF になります。
+当初、操作中や走行中に、カーネルパニックを起こしがちでした。これは急激な消費電力の上昇による電圧降下によるものであったようです。
+いろいろと試行錯誤した結果、すべての回路をひとつの能動素子と見立て、パススルーコンデンサを追加して、消費電力の上昇時の補償を行うことで、動作が安定しました。
+現在の容量が適正かどうかはわかりませんが、とりあえず様子見です。
+![Diagram-PassCon.png](./img/Diagram-PassCon.png)
+![2016-07-17_223607211_FD342_iOS.jpg](./img/2016-07-17_223607211_FD342_iOS.jpg)

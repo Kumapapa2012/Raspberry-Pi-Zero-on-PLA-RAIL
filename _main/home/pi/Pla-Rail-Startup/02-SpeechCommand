@@ -1,0 +1,35 @@
+#!/bin/bash
+## kmori addition
+
+
+## 1. start minimal xwindow to run pulseaudio 8.x with bluez5.
+## Bluetooth headset requires this combination.
+if pgrep "xinit"
+	then echo "xinit is running."
+else
+	## start X
+	xinit /home/pi/bin/my_pulseaudio -- /usr/bin/Xvfb :1 -screen 0 1x1x8 &
+
+	# wait until pulseaudio starts
+	until pgrep "pulseaudio"
+	do
+		echo "waiting for pulseaudio..."
+		sleep 1
+	done
+	
+	# set default audio source to bluetooth headset
+	until pactl list sources short | grep 'bluez_source'
+	do
+		echo 'Waiting for bluetooth	audio source...'
+		sleep 1
+	done
+	pactl list sources short | grep 'bluez_source' | awk '{ pacmd set-default-source $1 }'
+
+## 2. start SoX to record voice from BT-Headset.
+	# start recording speech
+	rec ~/sox_temp/test.wav rate 16k silence 1 0.5 0.15% 1 0.5 0.15% : newfile : restart 2>&1 | tee ~/logs/watch_sox_rec_log &
+
+## 3. start script to pass generated voice file to speech engine.
+	# watch voice file and do speech recognition
+	python3 ~/bin/watch_dir2.py 2>&1 | tee ~/logs/watch_sox_rec_log &
+fi

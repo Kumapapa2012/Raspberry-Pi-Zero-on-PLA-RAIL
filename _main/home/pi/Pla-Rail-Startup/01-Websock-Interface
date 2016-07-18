@@ -1,0 +1,11 @@
+#!/bin/bash
+##
+## starts Websocket server with  port 10502
+
+if pgrep -f "kmori_slider_svr.js"
+	then echo "Websock server is running"
+else
+##	node ~/bin/kmori_slider_svr.js > ~/logs/kmori_slider_svr.log 2>&1 &
+	node ~/bin/motor_control.js > ~/logs/motor_control.log 2>&1 &
+
+fi
