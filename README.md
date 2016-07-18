@@ -40,7 +40,7 @@ Raspberry pi Zero は自身の消費電流も高く、さらに USB、I2C など
 接続部が弱ると、振動で電気的ノイズが発生し、Kernel Panic が頻発することがあります。
 
 ## 続きは
-[Readme_Hardware.md]("_main/_documents/Readme/ReadMe_Hardware.md") にて配線図などの説明をします。
-[Readme_Software.md]("_main/_documents/Readme/ReadMe_Software.md") にて機能の実装方法を説明します。
+[Readme_Hardware.md](_main/_documents/Readme/ReadMe_Hardware.md) にて配線図などの説明をします。
+[Readme_Software.md](_main/_documents/Readme/ReadMe_Software.md) にて機能の実装方法を説明します。
 
 [EOF]
