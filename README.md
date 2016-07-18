@@ -30,7 +30,7 @@ Raspberry pi Zero は自身の消費電流も高く、さらに USB、I2C など
   
 もくろみ通り、すっぽりと収まっています。
 左側車両は1両目、モーターとギアボックス、ブレッドボードに実装されたモーターコントローラーがぴったりプラレールに収まっています！また前方についているのは、Web カメラです。  
-右側車輌には、Raspberry pi Zero と USB ハブ、Bluetooth Dongle と Wifi Dongleが収まっていま_main/_documents/Readme/imgす。先頭車両の Web カメラはここで Raspberry pi Zero に接続されています。
+右側車輌には、Raspberry pi Zero と USB ハブ、Bluetooth Dongle と Wifi Dongleが収まっています。先頭車両の Web カメラはここで Raspberry pi Zero に接続されています。
 
 ### 配線の実態
 <img src="_main/_documents/Readme/img/WIN_20160430_06_18_49_Pro.jpg" width=640/>  
