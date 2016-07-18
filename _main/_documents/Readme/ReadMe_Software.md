@@ -2,6 +2,55 @@
 ## 概要
 
 ## OS のセットアップ
+Raspberry Pi Zero で使用可能なオペレーティングシステムはいくつか選択肢がありますが、最終的に Jessie の Full Desktop Version としました。
+Jessie は、PulseAudio 5 が標準ですが、このバージョンを使用すると、Bluetooth の HFP/HSP プロファイルが利用できません。このため、本当は、PulseAudio8 を使用する Ubuntu 16.04 の ARM 版を使用したかったのですが、Ubuntu の ARM サポートは、 ARM v7 以上。Raspberry Pi Zero の CPU は、ARMv6 ARM11 であるため、ブートさえしません。
+仕方ないので、PulseAudio はソースからビルドすることにして、Jessie をセットアップします。
+Jessie には、X-Window つきの Full Desktop Version "RASPBIAN JESSIE" と、X-Window 等を抜いて軽量化した "RASPBIAN JESSIE LITE" がありますが、Bluetooth を使おうとすると、X-Window が必須です。
+したがって、使用 OS は、"RASPBIAN JESSIE" となりました。
+
+ここから、"RASPBIAN JESSIE" をダウンロードし、SD に書き込みブートします。
+https://www.raspberrypi.org/downloads/raspbian/
+
+その後、最低限の以下の設定を行いました。
+
+### raspi-config
+まずはじめに、OS の基本設定を行います。
+"sudo raspi-config" にて、Raspi-config を起動し以下の設定を行います。
+
+	5. Internationalization Options
+		Change TimeZone -> Asia/Tokyo
+        Change Keyboard Layout -> Microsoft Natural/Other/Japanese/The default for.../No Compose Key
+        Change Wifi Contry -> JP Japan
+	9. Advanced Options
+		SSH -> Enabled
+		I2C -> Enabled
+
+### Wifi Setting
+固定 IP とするため、以下のファイルの設定を行いました。
+下記 iface wlan0 以下を変更しています。
+####/etc/network/interfaces
+    # interfaces(5) file used by ifup(8) and ifdown(8)
+
+    # Please note that this file is written to be used with dhcpcd
+    # For static IP, consult /etc/dhcpcd.conf and 'man dhcpcd.conf'
+
+    # Include files from /etc/network/interfaces.d:
+    source-directory /etc/network/interfaces.d
+
+    auto lo
+    iface lo inet loopback
+
+    iface eth0 inet manual
+
+    allow-hotplug wlan0
+    iface wlan0 inet static
+        wpa-conf /etc/wpa_supplicant/wpa_supplicant.conf
+        address	192.168.1.253
+        network 192.168.1.0
+        netmask 255.255.255.0
+        broadcast 192.168.1.255
+        gateway 192.168.1.1
+
 
 ## ソフトウェアその1 - Web Interaface
 Web ページを開くと、スライドバーとビデオのスクリーンが出ます。
@@ -120,7 +169,7 @@ sudo systemctl stop mjpg-streamer</PRE>
     
 4. OS を再起動します。
 	再起動後、Web ブラウザで http://(Raspberry pi zero IP Address)/ を開くと、操縦可能になります。
-    操作の様子を、Youtube に Up しました。
+    操作の様子を、[Youtube に Up](https://youtu.be/m4cnAravc4Q) しました。
     <iframe width="420" height="315" src="https://www.youtube.com/embed/m4cnAravc4Q" frameborder="0" allowfullscreen></iframe>
 
 
