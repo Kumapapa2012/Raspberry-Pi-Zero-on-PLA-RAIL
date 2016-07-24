@@ -48,20 +48,24 @@ ws.on('connection', function(w){
     switch (cli_data.type) {
 	case 'change':
 		// 低電圧誤動作防止のため、cli_data.value <５０ ではモーター操作しない。
+		// cli_data.value : 0 - 100
+		// value_current: 0,50-100
+		var value_current = (50+((cli_data.value*50)/100))*(cli_data.value>0);
+
 	    // drv8830 の 1.94V = 100% として計算。現在は前進のみ。
 	    // 1.94V が 0x19=25段階。
 		// 電圧降下防止のため、モーターの電圧は段階的に変える。
 		// 電圧を上げる時のみ。Slider の値の差が +３０ を上回る場合、一段階クッションを置く。
-		if(cli_data.value - value_last > 30) {
-			delta_value=value_last+(cli_data.value - value_last) / 2;
-			r=((( delta_value * 25)/100)<<2)|0x1;
+		if(value_current - value_last > 30) {
+			var value_delta=value_last+(value_current - value_last) / 2;
+			r=((( value_delta * 25)/100)<<2)|0x1;
 			motor_control(r);
 		}
 
-		r=(((cli_data.value * 25)/100)<<2)|0x1;
+		r=(((value_current * 25)/100)<<2)|0x1;
 		console.log('r=' + r);
 		motor_control(r);
-		value_last = cli_data.value;
+		value_last = value_current;
 
 		// クライアントに反映
 		ws.clients.forEach(function(client) {
@@ -81,7 +85,7 @@ ws.on('connection', function(w){
 	    break;		
     }
     console.log(cli_data["type"]);
-    console.log(cli_data.value);
+    console.log(value_current);
   });
   
   w.on('close', function() {

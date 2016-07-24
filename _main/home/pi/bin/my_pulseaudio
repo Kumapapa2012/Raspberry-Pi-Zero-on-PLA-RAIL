@@ -2,7 +2,8 @@
 # dbus-launch
 # dbus-run-session -- /usr/bin/pulseaudio --log-target=syslog --disallow-exit=1 &
 dbus-launch
-/usr/bin/pulseaudio --log-target=syslog --disallow-exit=1 &
+# /usr/bin/pulseaudio --log-target=syslog --disallow-exit=1 &
+dbus-run-session -- /usr/bin/pulseaudio --log-target=syslog --disallow-exit=1 &
 
 # no sudo in here!! kmori
 # start bluetooth PAN to Raspberry Pi3
